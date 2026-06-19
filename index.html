@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DailySpark - Daily Motivation & Inspirational Quotes</title>
+    <meta name="description" content="Start your day with powerful motivational quotes, affirmations, and daily inspiration. New quotes every day for success, happiness, and growth.">
+    <meta name="keywords" content="daily quotes, motivational quotes, inspiration, affirmations, success quotes, life quotes">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #faf8f5;
+            color: #2d2d2d;
+            min-height: 100vh;
+        }
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+
+        header {
+            background: #fff;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.05);
+            padding: 18px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #d4a574;
+        }
+        .logo span { color: #2d2d2d; }
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+        .nav-links a {
+            text-decoration: none;
+            color: #666;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: color 0.3s;
+        }
+        .nav-links a:hover, .nav-links a.active { color: #d4a574; }
+
+        .hero-quote {
+            padding: 80px 20px 60px;
+            text-align: center;
+            background: linear-gradient(180deg, #fff 0%, #faf8f5 100%);
+        }
+        .quote-mark {
+            font-family: 'Playfair Display', serif;
+            font-size: 6rem;
+            color: #d4a574;
+            opacity: 0.3;
+            line-height: 0.5;
+            margin-bottom: 20px;
+        }
+        .hero-quote-text {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.2rem;
+            font-weight: 600;
+            line-height: 1.5;
+            max-width: 800px;
+            margin: 0 auto 25px;
+            color: #2d2d2d;
+        }
+        .hero-quote-author {
+            font-size: 1.1rem;
+            color: #888;
+            font-style: italic;
+        }
+        .hero-quote-author::before { content: "— "; }
+        .quote-actions {
+            margin-top: 35px;
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .btn {
+            padding: 12px 28px;
+            border-radius: 30px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.95rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+        }
+        .btn-primary {
+            background: #d4a574;
+            color: #fff;
+        }
+        .btn-primary:hover {
+            background: #c49464;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(212,165,116,0.3);
+        }
+        .btn-secondary {
+            background: #fff;
+            color: #666;
+            border: 1px solid #e0d5c8;
+        }
+        .btn-secondary:hover {
+            background: #faf8f5;
+            border-color: #d4a574;
+        }
+
+        .categories {
+            padding: 40px 0;
+        }
+        .cat-title {
+            text-align: center;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            margin-bottom: 30px;
+            color: #2d2d2d;
+        }
+        .cat-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        .cat-card {
+            background: #fff;
+            border-radius: 16px;
+            padding: 25px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 1px solid #f0ebe5;
+            text-decoration: none;
+            color: inherit;
+        }
+        .cat-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+            border-color: #d4a574;
+        }
+        .cat-card .icon {
+            font-size: 2.5rem;
+            margin-bottom: 12px;
+            display: block;
+        }
+        .cat-card h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: #2d2d2d;
+        }
+        .cat-card p {
+            font-size: 0.8rem;
+            color: #999;
+        }
+
+        .quote-feed {
+            padding: 40px 0 60px;
+        }
+        .feed-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        .feed-header h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.6rem;
+        }
+
+        .quotes-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .quote-card {
+            background: #fff;
+            border-radius: 16px;
+            padding: 30px;
+            border: 1px solid #f0ebe5;
+            transition: all 0.3s;
+        }
+        .quote-card:hover {
+            box-shadow: 0 5px 25px rgba(0,0,0,0.05);
+        }
+        .quote-card .category-tag {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+        .tag-success { background: #e8f5e9; color: #2e7d32; }
+        .tag-love { background: #fce4ec; color: #c2185b; }
+        .tag-life { background: #e3f2fd; color: #1565c0; }
+        .tag-happiness { background: #fff3e0; color: #e65100; }
+        .tag-wisdom { background: #f3e5f5; color: #6a1b9a; }
+        .tag-motivation { background: #e0f2f1; color: #00695c; }
+        .tag-leadership { background: #fce4ec; color: #880e4f; }
+        .tag-courage { background: #e8eaf6; color: #283593; }
+        .tag-dreams { background: #f1f8e9; color: #558b2f; }
+        .tag-perseverance { background: #fff8e1; color: #f57f17; }
+
+        .quote-card .text {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            line-height: 1.6;
+            color: #2d2d2d;
+            margin-bottom: 15px;
+        }
+        .quote-card .author {
+            color: #888;
+            font-style: italic;
+            font-size: 0.95rem;
+        }
+        .quote-card .actions {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid #f0ebe5;
+        }
+        .action-btn {
+            background: none;
+            border: none;
+            color: #999;
+            cursor: pointer;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: color 0.3s;
+        }
+        .action-btn:hover { color: #d4a574; }
+
+        .affirmation-box {
+            background: linear-gradient(135deg, #d4a574, #c49464);
+            border-radius: 20px;
+            padding: 40px 30px;
+            text-align: center;
+            margin: 40px 0;
+            color: #fff;
+        }
+        .affirmation-box h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+        .affirmation-box .affirm-text {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            max-width: 700px;
+            margin: 0 auto 25px;
+            font-style: italic;
+        }
+        .affirmation-box .btn {
+            background: #fff;
+            color: #d4a574;
+        }
+        .affirmation-box .btn:hover {
+            background: #faf8f5;
+        }
+
+        footer {
+            background: #2d2d2d;
+            color: #999;
+            padding: 40px 20px;
+            text-align: center;
+        }
+        footer .links {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        footer a { color: #aaa; text-decoration: none; transition: color 0.3s; }
+        footer a:hover { color: #d4a574; }
+
+        @media (max-width: 768px) {
+            .hero-quote-text { font-size: 1.5rem; }
+            .nav-links { display: none; }
+            .quote-card { padding: 20px; }
+            .quote-card .text { font-size: 1.1rem; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">Daily<span>Spark</span></div>
+                <nav class="nav-links">
+                    <a href="#" class="active">Daily Quote</a>
+                    <a href="#categories">Categories</a>
+                    <a href="#affirmations">Affirmations</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <section class="hero-quote">
+            <div class="quote-mark">"</div>
+            <div class="hero-quote-text">The only way to do great work is to love what you do.</div>
+            <div class="hero-quote-author">Steve Jobs</div>
+            <div class="quote-actions">
+                <a href="#quotes" class="btn btn-primary">Browse More Quotes</a>
+                <button class="btn btn-secondary" onclick="navigator.clipboard.writeText('The only way to do great work is to love what you do. — Steve Jobs'); alert('Copied!')">📋 Copy</button>
+            </div>
+        </section>
+
+        <section class="categories" id="categories">
+            <h2 class="cat-title">Explore by Category</h2>
+            <div class="cat-grid">
+                <a href="#quotes" class="cat-card">
+                    <span class="icon">🚀</span>
+                    <h3>Success</h3>
+                    <p>Achieve your goals</p>
+                </a>
+                <a href="#quotes" class="cat-card">
+                    <span class="icon">💕</span>
+                    <h3>Love</h3>
+                    <p>Heart & relationships</p>
+                </a>
+                <a href="#quotes" class="cat-card">
+                    <span class="icon">🌿</span>
+                    <h3>Life</h3>
+                    <p>Wisdom for living</p>
+                </a>
+                <a href="#quotes" class="cat-card">
+                    <span class="icon">😊</span>
+                    <h3>Happiness</h3>
+                    <p>Find your joy</p>
+                </a>
+                <a href="#quotes" class="cat-card">
+                    <span class="icon">🦉</span>
+                    <h3>Wisdom</h3>
+                    <p>Timeless insights</p>
+                </a>
+                <a href="#quotes" class="cat-card">
+                    <span class="icon">⚡</span>
+                    <h3>Motivation</h3>
+                    <p>Get moving</p>
+                </a>
+            </div>
+        </section>
+
+        <section class="affirmation-box" id="affirmations">
+            <h3>✨ Today's Affirmation</h3>
+            <div class="affirm-text">
+                I am capable of achieving anything I set my mind to. Today, I choose to focus on progress, not perfection.
+            </div>
+            <a href="#quotes" class="btn">More Inspiration →</a>
+        </section>
+
+        <section class="quote-feed" id="quotes">
+            <div class="feed-header">
+                <h2>More Inspiration</h2>
+            </div>
+            <div class="quotes-list">
+
+                <!-- QUOTE 1 -->
+                <div class="quote-card">
+                    <span class="category-tag tag-success">Success</span>
+                    <div class="text">"Believe you can and you're halfway there."</div>
+                    <div class="author">— Theodore Roosevelt</div>
+                    <div class="actions">
+                        <button class="action-btn" onclick="navigator.clipboard.writeText('Believe you can and you are halfway there. — Theodore Roosevelt'); alert('Copied!')">📋 Copy</button>
+                    </div>
+                </div>
+
+                <!-- QUOTE 2 -->
+                <div class="quote-card">
+                    <span class="category-tag tag-life">Life</span>
+                    <div class="text">"The best time to plant a tree was 20 years ago. The second best time is now."</div>
+                    <div class="author">— Chinese Proverb</div>
+                    <div class="actions">
+                        <button class="action-btn" onclick="navigator.clipboard.writeText('The best time to plant a tree was 20 years ago. The second best time is now. — Chinese Proverb'); alert('Copied!')">📋 Copy</button>
+                    </div>
+                </div>
+
+                <!-- QUOTE 3 -->
+                <div class="quote-card">
+                    <span class="category-tag tag-life">Life</span>
+                    <div class="text">"Your time is limited, don't waste it living someone else's life."</div>
+                    <div class="author">— Steve Jobs</div>
+                    <div class="actions">
+                        <button class="action-btn" onclick="navigator.clipboard.writeText('Your time is limited, do not waste it living someone else is life. — Steve Jobs'); alert('Copied!')">📋 Copy</button>
+                    </div>
+                </div>
+
+                <!-- QUOTE 4 -->
+                <div class="quote-card">
+                    <span class="category-tag tag-success">Success</span>
+                    <div class="text">"The future belongs to those who believe in the beauty of their dreams."</div>
+                    <div class="author">— Eleanor Roosevelt</div>
+                    <div class="actions">
+                        <button class="action-btn" onclick="navigator.clipboard.writeText('The future belongs to those who believe in the beauty of their dreams. — Eleanor Roosevelt'); alert('Copied!')">📋 Copy</button>
+                    </div>
+                </div>
+
+                <!-- QUOTE 5 -->
+                <div class="quote-card">
+                    <span class="category-tag tag-motivation">Motivation</span>
+                    <div class="text">"It does not matter how slowly you go as long as you do not stop."</div>
+                    <div class="author">— Confucius</div>
+                    <div class="actions">
+                        <button class="action-btn" onclick="navigator.clipboard.writeText('It does not matter how slowly you go as long as you do not stop. — Confucius'); alert('Copied!')">📋 Copy</button>
+                    </div>
+                </div>
+
+                <!-- QUOTE 6 -->
+                <div class="quote-card">
+                    <span class="category-tag tag-success">Success</span>
+                    <div class="text">"Everything you've ever wanted is on the other side of fear."</div>
+                    <div class="author">— George Addair</div>
+                    <div class="actions">
+                        <button class="action-btn" onclick="navigator.clipboard.writeText('Everything you have ever wanted is on the other side of fear. — George Addair'); alert('Copied!')">📋 Copy</button>
+                    </div>
+                </div>
+
+                <!-- QUOTE 7 -->
+                <div class="quote-card">
+                    <span class="category-tag tag-success">Success</span>
+                    <div class="text">"Success is not final, failure is not fatal: it is the courage to continue that counts."</div>
+                    <div class="author">— Winston Churchill</div>
+                    <div class="actions">
+                        <button class="action-btn" onclick="navigator.clipboard.writeText('Success is not final, failure is not fatal: it is the courage to continue that counts. — Winston Churchill'); alert('Copied!')">📋 Copy</button>
+                    </div>
+                </div>
+
+                <!-- QUOTE 8 -->
+                <div class="quote-card">
+                    <span class="category-tag tag-life">Life</span>
+                    <div class="text">"Hardships often prepare ordinary people for an extraordinary destiny."</div>
+                    <div class="author">— C.S. Lewis</div>
+                    <div class="actions">
+                        <button class="action-btn" onclick="navigator.clipboard.writeText('Hardships often prepare ordinary people for an extraordinary destiny. — C.S. Lewis'); alert('Copied!')">📋 Copy</button>
+                    </div>
+                </div>
+
+                <!-- QUOTE 9 -->
+                <div class="quote-card">
+                    <span class="category-tag tag-motivation">Motivation</span>
+                    <div class="text">"The only impossible journey is the one you never begin."</div>
+                    <div class="author">— Tony Robbins</div>
+                    <div class="actions">
+                        <button class="action-btn" onclick="navigator.clipboard.writeText('The only impossible journey is the one you never begin. — Tony Robbins'); alert('Copied!')">📋 Copy</button>
+                    </div>
+                </div>
+
+                <!-- QUOTE 10 -->
+                <div class="quote-card">
+                    <span class="category-tag tag-motivation">Motivation</span>
+                    <div class="text">"Don't watch the clock; do what it does. Keep going."</div>
+                    <div class="author">— Sam Levenson</div>
+                    <div class="actions">
+                        <button class="action-btn" onclick="navigator.clipboard.writeText('Do not watch the clock; do what it does. Keep going. — Sam Levenson'); alert('Copied!')">📋 Copy</button>
+                    </div>
+                </div>
+
+                <!-- QUOTE 11 -->
+                <div class="quote-card">
+                    <span class="category-tag tag-happiness">Happiness</span>
+                    <div class="text">"Keep your face always toward the sunshine—and shadows will fall behind you."</div>
+                    <div class="author">— Walt Whitman</div>
+                    <div class="actions">
+                        <button class="action-btn" onclick="navigator.clipboard.writeText('Keep your face always toward the sunshine and shadows will fall behind you. — Walt Whitman'); alert('Copied!')">📋 Copy</button>
+                    </div>
+                </div>
+
+                <!-- QUOTE 12 -->
+                <div class="quote-card">
+                    <span class="category-tag tag-love">Love</span>
+                    <div class="text">"The best and most beautiful things in the world cannot be seen or even touched - they must be felt with the heart."</div>
+                    <div class="author">— Helen Keller</div>
+                    <div class="actions">
+                        <button class="action-btn" onclick="navigator.clipboard.writeText('The best and most beautiful things in the world cannot be seen or even touched - they must be felt with the heart. — Helen Keller'); alert('Copied!')">📋 Copy</button>
+                    </div>
+                </div>
+
+                <!-- QUOTE 13 -->
+                <div class="quote-card">
+                    <span class="category-tag tag-wisdom">Wisdom</span>
+                    <div class="text">"It is during our darkest moments 
